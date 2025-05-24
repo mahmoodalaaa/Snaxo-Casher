@@ -1,0 +1,6 @@
+enum DeleveryType {
+
+  inGermany,
+  inEurope
+
+}

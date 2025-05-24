@@ -17,7 +17,6 @@ class Homescreen extends StatelessWidget {
           flex: 1,
           child: secound_app_bar(),
         ),
-        
       ],
     );
   }
