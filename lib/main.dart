@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snaxo_chasher/homescreen.dart';
+import 'package:snaxo_chasher/home_screen.dart';
 
 void main() {
   runApp(const SnaxoApp());
