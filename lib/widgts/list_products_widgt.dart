@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snaxo_chasher/Model/Product.dart';
+import 'package:snaxo_chasher/Model/Product_catigory.dart';
+import 'package:snaxo_chasher/Repo/Product_repo.dart';
 
-class list_products_widgt extends StatelessWidget {
+class list_products_widgt extends StatefulWidget {
   const list_products_widgt({super.key});
 
   @override
+  State<list_products_widgt> createState() => _list_products_widgtState();
+}
+
+class _list_products_widgtState extends State<list_products_widgt> {
+  @override
+   void initState() {
+    super.initState();
+    // Load products only once when the widget is inserted into the tree
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductRepo>().getProductsByCategory(ProductCategory.all);
+    });
+  }
+
   Widget build(BuildContext context) {
+   List<Product> products= context.watch<ProductRepo>().products;
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -23,17 +41,24 @@ class list_products_widgt extends StatelessWidget {
           ),
           Expanded(
             child: GridView.builder(
+            clipBehavior: Clip.none,
+              physics: BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 0.75, 
               ),
-              itemCount: 10,
+              itemCount: products.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      print('Product $index tapped');
+                      // add the product to the Product Menu Repo
+                      print(index);
+                      // this will be insid the drower 
+                         // context.read<ProductRepo>().getProductsByCategory(ProductCategory.fruit);
                     },
                     child: Card(
                       color: Colors.white,
@@ -41,7 +66,7 @@ class list_products_widgt extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Image.asset('images/strawberrys.webp',
+                            child: Image.asset('${products[index].imageUrl}',
                               ),
                           ),
                           SizedBox(height: 8),
@@ -49,14 +74,14 @@ class list_products_widgt extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Product',
+                                '${products[index].name}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text("9,99€", style: TextStyle(fontSize: 12)),
-                              Text("80g", style: TextStyle(fontSize: 12)),
+                              Text("${products[index].price}€", style: TextStyle(fontSize: 12)),
+                              Text("${products[index].weightInGrams}g", style: TextStyle(fontSize: 12)),
                               SizedBox(height: 5),
                             ],
                           ),
