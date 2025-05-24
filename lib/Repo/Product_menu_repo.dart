@@ -10,24 +10,28 @@ class ProductMenuRepo extends ChangeNotifier {
 
   double totalPrice = 0.0;
 
-  ProductMenuRepo();
+  DeleveryType deleveryType = DeleveryType.inGermany;
 
-  List<Product> getProducts() {
-    return products;
-  }
+  ProductMenuRepo();
 
   void addProduct(Product product) {
     products.add(product);
+    getDeleveryPrice();
+    getTotalPrice();
     notifyListeners();
   }
 
   void removeProduct(Product product) {
     products.remove(product);
+    getDeleveryPrice();
+    getTotalPrice();
     notifyListeners();
   }
 
   void clearProducts() {
     products.clear();
+    deleveryPrice = 0.0;
+    totalPrice = 0.0;
     notifyListeners();
   }
 
@@ -39,13 +43,13 @@ class ProductMenuRepo extends ChangeNotifier {
     return totalPrice;
   }
 
-  void getDeleveryPrice(DeleveryType deleveryType) {
+  void getDeleveryPrice() {
     
     if(deleveryType == DeleveryType.inGermany ){
       if(getPrice() >= 49) {
         deleveryPrice= 0.0;
       } else {
-        deleveryPrice= 5.99;
+        deleveryPrice= 4.99;
       }
     } 
     if(getPrice() >= 105) {
@@ -58,7 +62,19 @@ class ProductMenuRepo extends ChangeNotifier {
   void getTotalPrice() {
     totalPrice = getPrice() + deleveryPrice;
     notifyListeners();
-  
 }
+
+  void setDeleveryType() {
+    if(deleveryType == DeleveryType.inGermany){
+      deleveryType = DeleveryType.inEurope;
+    } else if(deleveryType == DeleveryType.inEurope) {
+      deleveryType = DeleveryType.inGermany;
+    }
+    getDeleveryPrice();
+    getTotalPrice();
+    notifyListeners();
+  }
+
+
 }
   
