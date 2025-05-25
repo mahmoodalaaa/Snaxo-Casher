@@ -20,9 +20,18 @@ class SnaxoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
+      scrollBehavior: NoGlowScrollBehavior() ,
       debugShowCheckedModeBanner: false,
       home: Homescreen(),
     );
+  }
+}
+
+class NoGlowScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child; 
   }
 }

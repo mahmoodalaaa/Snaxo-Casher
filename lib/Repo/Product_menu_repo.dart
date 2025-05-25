@@ -10,6 +10,10 @@ class ProductMenuRepo extends ChangeNotifier {
 
   double totalPrice = 0.0;
 
+  int totalItems = 0;
+
+  String flag="images/Germany.png";
+
   DeleveryType deleveryType = DeleveryType.inGermany;
 
   ProductMenuRepo();
@@ -32,14 +36,19 @@ class ProductMenuRepo extends ChangeNotifier {
     products.clear();
     deleveryPrice = 0.0;
     totalPrice = 0.0;
+    totalItems = 0;
     notifyListeners();
   }
 
   double getPrice() {
+    int total=0;
     double totalPrice = 0;
     for (var product in products) {
       totalPrice +=product.price ?? 0.0;
+      total +=1;
     }
+    totalItems = total;
+    notifyListeners();
     return totalPrice;
   }
 
@@ -51,16 +60,19 @@ class ProductMenuRepo extends ChangeNotifier {
       } else {
         deleveryPrice= 4.99;
       }
-    } 
+    } else{
     if(getPrice() >= 105) {
         deleveryPrice= 0.0;
-      } 
+      } else{
         deleveryPrice= 7.00;
+      }
+    }
         notifyListeners();
     } 
        
   void getTotalPrice() {
-    totalPrice = getPrice() + deleveryPrice;
+    double price= getPrice() + deleveryPrice;
+    totalPrice = roundToTwoDecimalPlaces(price);
     notifyListeners();
 }
 
@@ -75,6 +87,16 @@ class ProductMenuRepo extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changFlag(){
+    if(flag =="images/Germany.png"){
+      flag ="images/europa.png";
+    }else {
+      flag="images/Germany.png";
+    }
+    notifyListeners();
+  }
 
 }
-  
+  double roundToTwoDecimalPlaces(double value) {
+  return (value * 100).roundToDouble() / 100;
+}

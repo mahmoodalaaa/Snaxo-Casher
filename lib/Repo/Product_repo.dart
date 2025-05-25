@@ -34,13 +34,17 @@ class ProductRepo extends ChangeNotifier {
 
  List<Product> products = [];
 
+  ProductCategory productCategory =ProductCategory.all;
+
   ProductRepo();
 
   void getProductsByCategory(ProductCategory category) {
     if (category == ProductCategory.all) {
        products = allproducts;
+       productCategory=category;
     }else {
        products= allproducts.where((product) => product.category == category).toList();
+       productCategory=category;
     }
     notifyListeners();
   }

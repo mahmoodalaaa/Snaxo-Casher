@@ -1,9 +1,13 @@
 enum ProductCategory {
   
-  all,
-  vegetable,
-  fruit,
-  eiscream,
-  candy
+  all('All'),
+  vegetable('Vegetable'),
+  fruit('Fruit'),
+  eiscream('Eiscream'),
+  candy('Candy');
+
+    final String label;
+
+  const ProductCategory(this.label);
 
 }

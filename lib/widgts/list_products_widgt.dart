@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snaxo_chasher/Model/Product.dart';
 import 'package:snaxo_chasher/Model/Product_catigory.dart';
+import 'package:snaxo_chasher/Repo/Product_menu_repo.dart';
 import 'package:snaxo_chasher/Repo/Product_repo.dart';
 
 class list_products_widgt extends StatefulWidget {
@@ -31,7 +32,7 @@ class _list_products_widgtState extends State<list_products_widgt> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Your Products',
+              '${context.watch<ProductRepo>().productCategory.label}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -55,10 +56,7 @@ class _list_products_widgtState extends State<list_products_widgt> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      // add the product to the Product Menu Repo
-                      print(index);
-                      // this will be insid the drower 
-                         // context.read<ProductRepo>().getProductsByCategory(ProductCategory.fruit);
+                      context.read<ProductMenuRepo>().addProduct(products[index]);
                     },
                     child: Card(
                       color: Colors.white,
